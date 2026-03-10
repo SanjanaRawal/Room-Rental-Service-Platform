@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function RoomCard({room}) {
 return(
@@ -8,7 +9,10 @@ return(
 <h3>{room.title}</h3>
 <p className="location">📍 {room.location}</p>
 <p className="price">₹ {room.price} / month</p>
+<p className="room-desc">{room.description.slice(0,60)}...</p>
+<Link to={`/room/${room.id}`}>
 <button>View Details</button>
+</Link>
 </div>
 </div>
 );

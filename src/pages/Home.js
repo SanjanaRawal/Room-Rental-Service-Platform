@@ -1,40 +1,29 @@
-import React from "react";
+import React,{useState} from "react";
 import RoomCard from "../components/RoomCard";
 import SearchBar from "../components/SearchBar";
-
-const rooms = [
-{
-id:1,
-title:"Single Room",
-location:"Delhi",
-price:6000,
-image:"https://images.unsplash.com/photo-1505693314120-0d443867891c"
-},
-{
-id:2,
-title:"PG Room",
-location:"Noida",
-price:8000,
-image:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2"
-},
-{
-id:3,
-title:"Studio Apartment",
-location:"Gurgaon",
-price:12000,
-image:"https://images.unsplash.com/photo-1493809842364-78817add7ffb"
-}
-]
+import rooms from "../data/rooms"
 
 function Home(){
+const [search,setSearch] = useState("");
+const [maxPrice, setMaxPrice] = useState(20000);
+const filteredRooms = rooms.filter(room =>
+room.location.toLowerCase().includes(search.toLowerCase()) &&
+room.price <= maxPrice
+);
 return(
 <div>
 <h1>Find Your Perfect Room</h1>
-<SearchBar/>
+<SearchBar search={search} setSearch={setSearch} 
+maxPrice={maxPrice} setMaxPrice={setMaxPrice} />
 <div className="room-container">
-{rooms.map(room => (
+{filteredRooms.map(room => (
 <RoomCard key={room.id} room={room}/>
 ))}
+{filteredRooms.length === 0 && (
+  <p style={{textAlign:'center', marginTop:'40px', fontSize:'18px', color:'#555'}}>
+    No rooms match your search 😕
+  </p>
+)}
 </div>
 </div>
 )
